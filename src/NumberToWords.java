@@ -3,6 +3,8 @@ public class NumberToWords {
     public static void numberToWords (int number) {
         if (number < 0) {
             System.out.println("Invalid Value");
+        } else if (number == 0) {
+            System.out.println("Zero");
         }
 
         // Check digit for zero number
