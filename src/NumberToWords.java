@@ -1,19 +1,22 @@
 public class NumberToWords {
 
-    public static String numberToWords (int number) {
+    public static void numberToWords (int number) {
         if (number < 0) {
-            return "Invalid Value";
+            System.out.println("Invalid Value");
         }
 
+        // Check digit for zero number
+        int numOfZero = getDigitCount(number) - getDigitCount(reverse(number));
+
         // reverse the number using method reverse
-        number = reverse(number);
+        int revNumber = reverse(number);
 
         int extNum = 0;
         String numInWord = "";
 
-        // Convert number to word 47804 --> four seven eight zero four
-        while (number > 0) {
-            extNum = number % 10;
+        // Convert number to word 47800 --> four seven eight zero zero
+        while (revNumber > 0) {
+            extNum = revNumber % 10;
             switch (extNum) {
                 case 0:
                     numInWord = "Zero";
@@ -46,28 +49,52 @@ public class NumberToWords {
                     numInWord = "Nine";
                     break;
             }
-            if (number >= 10) {
-                System.out.println(numInWord);
-            }
-            number /= 10;
+            System.out.println(numInWord);
+            revNumber /= 10;
         }
-        return numInWord;
+
+        //Add Zero at the back
+        if (numOfZero > 0) {
+            for (int i=0; i < numOfZero; i++ ) {
+                System.out.println("Zero");
+            }
+        }
     }
 
     public static int reverse (int number) {
         int extractDigit;
-        String revNum = "";
+        int revNum = 0;
 
-        // Reverse the number 1234 --> 4321
+        if (number < 0) {
+            number = (number) * -1;
+            while (number > 0) {
+                extractDigit = number % 10;
+                revNum = extractDigit + (revNum * 10);
+                number /= 10;
+            }
+            revNum *= -1;
+        }
         while (number > 0) {
             extractDigit = number % 10;
-            revNum += Integer.toString(extractDigit);
+            revNum = extractDigit + (revNum * 10);
             number /= 10;
         }
-        return Integer.parseInt(revNum);
+        return revNum;
     }
 
     public static int getDigitCount (int number) {
-        
+        if (number < 0) {
+            return -1;
+        }
+
+        int digit = 0;
+        while (number != 0) {
+            digit++;
+            number /= 10;
+        }
+        if (digit == 0){
+            digit = 1;
+        }
+        return digit;
     }
 }
